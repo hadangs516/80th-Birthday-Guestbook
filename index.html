@@ -756,6 +756,17 @@
 
   nextBtn.addEventListener('click', function () { go(cur + 1); });
 
+  /* 빈 곳을 누르면 다음 화면으로 (버튼·링크·입력칸·글 선택 중에는 제외, 입력 중이면 키보드만 닫기) */
+  pagesEl.addEventListener('click', function (e) {
+    if (!opened) return;
+    if (e.target.closest && e.target.closest('a, button, input, textarea, select, label')) return;
+    var ae = document.activeElement;
+    if (ae && /^(INPUT|TEXTAREA)$/.test(ae.tagName)) { ae.blur(); return; }   /* 입력 중이면 키보드만 닫기 */
+    var sel = window.getSelection && window.getSelection();
+    if (sel && String(sel).length) return;
+    go(cur + 1);
+  });
+
   /* 처음 상태: 모든 화면 아래에 대기 */
   pages.forEach(function (p) {
     p.setAttribute('aria-hidden', 'true');
