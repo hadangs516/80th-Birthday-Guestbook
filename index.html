@@ -807,6 +807,9 @@
     else if (wantSound && opened) playBgm();
   });
 
+  /* 접속하자마자 재생을 시도한다. 브라우저가 막으면(대부분의 휴대폰) 첫 화면을 누를 때 재생된다 */
+  playBgm();
+
   /* ---------- 첫 안내 화면 ---------- */
   var splash = document.getElementById('splash');
   splash.addEventListener('click', function () {
@@ -814,7 +817,7 @@
     opened = true;
     root.classList.add('opened');
     soundBtn.classList.add('show');
-    playBgm();                                              /* 화면을 누른 순간에만 재생이 허용됨 */
+    if (bgm.paused) playBgm();                              /* 자동 재생이 막혔다면 이 터치로 재생 */
     splash.classList.add('hide');
     show(0, 1);
     lock = true;
